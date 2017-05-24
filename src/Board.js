@@ -79,12 +79,36 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+        // return true for conflict exists
+      // this.attributes is an object with 4 arrays of 4
+      var finalCheck = [];
+      
+      finalCheck.push(this.attributes[rowIndex].reduce(function (sum, curr) {
+      // input is an 'nth' element of board
+        return sum + curr;
+        //if one array is greater than 1 return true else return false
+      }) > 1 ? true : false);
+      
+      // go through final array and check if true
+      return finalCheck.includes(true);
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var finalCheck = [];
+      //iterate through each attribute
+      for (var i = 0; i < this.attributes.n; i++) {
+        
+        finalCheck.push(this.attributes[i].reduce(function (sum, curr) {
+
+          return sum + curr;
+        //if one array is greater than 1 return true else return false
+        }) > 1 ? true : false);
+      }
+ 
+      // go through final array and check if true
+      return finalCheck.includes(true);
+      
     },
 
 
