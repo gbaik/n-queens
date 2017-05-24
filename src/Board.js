@@ -79,13 +79,13 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-        // return true for conflict exists
+      // return true for conflict exists
       // this.attributes is an object with 4 arrays of 4
       var finalCheck = [];
       
-      finalCheck.push(this.attributes[rowIndex].reduce(function (sum, curr) {
+      finalCheck.push(this.attributes[rowIndex].reduce(function (sum, currentValue) {
       // input is an 'nth' element of board
-        return sum + curr;
+        return sum + currentValue;
         //if one array is greater than 1 return true else return false
       }) > 1 ? true : false);
       
@@ -98,10 +98,8 @@
       var finalCheck = [];
       //iterate through each attribute
       for (var i = 0; i < this.attributes.n; i++) {
-        
-        finalCheck.push(this.attributes[i].reduce(function (sum, curr) {
-
-          return sum + curr;
+        finalCheck.push(this.attributes[i].reduce(function (sum, currentValue) {
+          return sum + currentValue;
         //if one array is greater than 1 return true else return false
         }) > 1 ? true : false);
       }
@@ -118,12 +116,25 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var finalValue = 0;
+      for (var i = 0; i < this.attributes.n; i++) {
+        let currentValue = this.attributes[i][colIndex]; // first element of first array
+        finalValue += currentValue;
+      }
+      return finalValue > 1 ? true : false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var finalCheck = [];
+      for (var i = 0; i < this.attributes[0].length; i++) {
+        let currentValue = this.attributes[0][i]; // first element of first array
+        for (var j = 1; j < this.attributes.n; j++) { // start of next array
+          currentValue = currentValue + this.attributes[j][i];
+        }
+        finalCheck.push(currentValue > 1);
+      }
+      return finalCheck.includes(true);
     },
 
 
