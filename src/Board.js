@@ -220,7 +220,36 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var matrix = this.rows();
+      var output = [];
+      var coordinates = [];
+      
+      if (minorDiagonalColumnIndexAtFirstRow <= (matrix.length - 1)) {
+        coordinates[0] = 0;
+        coordinates[1] = minorDiagonalColumnIndexAtFirstRow;
+      } else {
+        coordinates[0] = minorDiagonalColumnIndexAtFirstRow - (matrix.length - 1);
+        coordinates[1] = matrix.length - 1;
+      }
+      
+
+      
+      // var iterations = matrix.length - Math.max(...coordinates); 
+      var rowIndex = coordinates[0];
+      var columnIndex = coordinates[1];
+      var iterations = minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1 ? ((coordinates[0] + coordinates[1]) + 1) : matrix.length - minorDiagonalColumnIndexAtFirstRow;
+      
+      console.log(iterations);
+      // var diagonal = matrix[coordinates[0]][coordinates[1]];
+
+      for (var i = 0; i < iterations; i++) {
+        output.push(matrix[rowIndex][columnIndex]);
+        rowIndex++;
+        columnIndex--;
+      }
+      
+      console.log(output);
+
     },
 
     // test if any minor diagonals on this board contain conflicts
