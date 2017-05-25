@@ -79,6 +79,8 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      // this.rows() gives us a matrix
+      
       // return true for conflict exists
       // this.attributes is an object with 4 arrays of 4
       var finalCheck = [];
@@ -144,40 +146,14 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      // var finalValue = [];
-      // var col = 0;
-      // var row = 0;
-      // for (var i = 0; i < this.attributes.n; i++) {
-      //   finalValue.push(this.attributes[col][row]);
-      //   col++;
-      //   row++;
-      // }
-      
-      // console.log(finalValue);
-      // return finalValue; // fixme
-      // var totalDiagonals = (this.attributes.n * 2) - 1;
-      // // add (rows + columns) - 1 to find number of iterations
-      // let n = this.attributes.n - 1;
-      // let row = n;
-      // let column = 0;
-      
-      // var coordinates = [];
-      // for (var i = 0; i < totalDiagonals; i++) {
-      //   coordinates[i] = [row, column];
-      //   column = row === 0 ? column + 1 : 0;
-      //   row = row - 1 < 0 ? 0 : row - 1;
-      //   // coordinates.push([this.attributes[row], this.attributes[column]]);
-      // }
-      
       var totalDiagonals = (this.attributes.n * 2) - 1;
-      // add (rows + columns) - 1 to find number of iterations
-      let n = this.attributes.n - 1;
-      let row = n;
+      let n = this.attributes.n - 1; // = index 3 from length 4
+      let row = n; // 3
       let column = 0;
       
       var coordinates = [];
@@ -185,37 +161,23 @@
         coordinates[i] = [row, column];
         row = column === n ? row - 1 : n;
         column = column === n ? n : column + 1;
-        // coordinates.push([this.attributes[row], this.attributes[column]]);
       }
       
       var finalDiagArrays = [];
-      
+      var boardMatrix = this.attributes;
       coordinates.forEach(function (coordinate) {
         let coordinateRow = coordinate[0];
         let coordinateColumn = coordinate[1];
-        
-        for (var i = 0; i < Math.min(coordinateRow, coordinateColumn); i++) {
-          // stops when number is min between row, column
-          // when it loops, push in boolean of whether value is 0 or 1
-          finalDiagArrays.push(this.attributes[coordinateRow][coordinateColumn] ? true : false);
-          coordinateRow--;
-          coordinateColumn--;
-          
-        }
+        // (we are in the coordinates array accessing each element or 'coordinate')
+          // setting coordinateRow to the index 0 of 'coordinate'
+          // setting coordinateColumn to index 1 of 'coordinate'
 
-        
+        for (var i = 0; i < (Math.min(coordinateRow, coordinateColumn) + 1); i++) {
+          finalDiagArrays.push(boardMatrix[coordinateRow - i][coordinateColumn - i] ? true : false);
+        }
       });
-      
-      console.log(finalDiagArrays);
-      
-      
-      // for (var i = 0; i < coordinates.length; i++) {
-      //   // for (var i = 0; i < coordinates[i].length; i++) {
-          
-      //   // } 
-      //   console.log(coordinates[i].length);
-      // }
-      console.log(coordinates);
+
+      return finalDiagArrays.includes(true);
     },
 
 
