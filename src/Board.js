@@ -237,9 +237,14 @@
       // var iterations = matrix.length - Math.max(...coordinates); 
       var rowIndex = coordinates[0];
       var columnIndex = coordinates[1];
-      var iterations = minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1 ? ((coordinates[0] + coordinates[1]) + 1) : matrix.length - minorDiagonalColumnIndexAtFirstRow;
+      var iterations = 0; 
+      if (minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1) {
+        iterations = coordinates[0] + coordinates[1] + 1;
+      } else {
+        iterations = ((matrix.length * 2) - 1 ) - minorDiagonalColumnIndexAtFirstRow;
+      }
       
-      console.log(iterations);
+      // console.log(iterations);
       // var diagonal = matrix[coordinates[0]][coordinates[1]];
 
       for (var i = 0; i < iterations; i++) {
@@ -247,8 +252,11 @@
         rowIndex++;
         columnIndex--;
       }
-      
+      console.log('minorDiagonalColumnIndexAtFirstRow ' + minorDiagonalColumnIndexAtFirstRow);
       console.log(output);
+      return output.reduce(function (sum, curr) {
+        return sum + curr;
+      }) > 1;
 
     },
 
