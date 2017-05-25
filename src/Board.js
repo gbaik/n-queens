@@ -224,45 +224,41 @@
       var output = [];
       var coordinates = [];
       
-      if (minorDiagonalColumnIndexAtFirstRow <= (matrix.length - 1)) {
-        coordinates[0] = 0;
-        coordinates[1] = minorDiagonalColumnIndexAtFirstRow;
-      } else {
-        coordinates[0] = minorDiagonalColumnIndexAtFirstRow - (matrix.length - 1);
-        coordinates[1] = matrix.length - 1;
-      }
+      coordinates[0] = (minorDiagonalColumnIndexAtFirstRow <= (matrix.length - 1)) ? 0 : minorDiagonalColumnIndexAtFirstRow - (matrix.length - 1);
+      coordinates[1] = (minorDiagonalColumnIndexAtFirstRow <= (matrix.length - 1)) ? minorDiagonalColumnIndexAtFirstRow : matrix.length - 1;
       
-
-      
-      // var iterations = matrix.length - Math.max(...coordinates); 
       var rowIndex = coordinates[0];
       var columnIndex = coordinates[1];
       var iterations = 0; 
       if (minorDiagonalColumnIndexAtFirstRow <= matrix.length - 1) {
         iterations = coordinates[0] + coordinates[1] + 1;
       } else {
-        iterations = ((matrix.length * 2) - 1 ) - minorDiagonalColumnIndexAtFirstRow;
+        iterations = ((matrix.length * 2) - 1) - minorDiagonalColumnIndexAtFirstRow;
       }
       
-      // console.log(iterations);
-      // var diagonal = matrix[coordinates[0]][coordinates[1]];
 
       for (var i = 0; i < iterations; i++) {
         output.push(matrix[rowIndex][columnIndex]);
         rowIndex++;
         columnIndex--;
       }
-      console.log('minorDiagonalColumnIndexAtFirstRow ' + minorDiagonalColumnIndexAtFirstRow);
-      console.log(output);
-      return output.reduce(function (sum, curr) {
-        return sum + curr;
+
+      return output.reduce(function (sum, currentValue) {
+        return sum + currentValue;
       }) > 1;
 
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      var matrix = this.rows();
+      var results = [];
+      
+      for (var i = 0; i < (matrix.length * 2 - 1); i++) {
+        results.push(this.hasMinorDiagonalConflictAt(i)); 
+      }
+      
+      return results.includes(true);
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
