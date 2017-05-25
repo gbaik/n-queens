@@ -146,7 +146,36 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false;
+      var output = [];
+      var coordinates = [];
+      var matrix = this.rows(); // gives us the matrix
+      
+      if (majorDiagonalColumnIndexAtFirstRow < 0) {
+        coordinates[0] = Math.abs(majorDiagonalColumnIndexAtFirstRow); 
+        coordinates[1] = 0;
+      } else if (majorDiagonalColumnIndexAtFirstRow > 0 ) {
+        coordinates[0] = 0;
+        coordinates[1] = majorDiagonalColumnIndexAtFirstRow;
+      } else {
+        coordinates[0] = 0;
+        coordinates[1] = 0;
+      }
+      
+      var iterations = matrix.length - Math.max(...coordinates); 
+      var rowIndex = coordinates[0];
+      var columnIndex = coordinates[1];
+      // we have starting points
+        // we have iterations to do based on starting points
+      for (var i = 0; i < iterations; i++) {
+        output.push(matrix[rowIndex][columnIndex]);
+        rowIndex++;
+        columnIndex++;
+      }
+      
+      return output.reduce(function (sum, currentValue) {
+        return sum + currentValue;
+      }) > 1;
+      
     },
 
     // test if any major diagonals on this board contain conflicts
@@ -168,15 +197,19 @@
       coordinates.forEach(function (coordinate) {
         let coordinateRow = coordinate[0];
         let coordinateColumn = coordinate[1];
+        var tempArray = [];
         // (we are in the coordinates array accessing each element or 'coordinate')
           // setting coordinateRow to the index 0 of 'coordinate'
           // setting coordinateColumn to index 1 of 'coordinate'
 
         for (var i = 0; i < (Math.min(coordinateRow, coordinateColumn) + 1); i++) {
-          finalDiagArrays.push(boardMatrix[coordinateRow - i][coordinateColumn - i] ? true : false);
+          tempArray.push(boardMatrix[coordinateRow - i][coordinateColumn - i]);
         }
+        finalDiagArrays.push(tempArray.reduce(function (sum, currentValue) {
+          return sum + currentValue;
+        }) > 1);
       });
-
+      
       return finalDiagArrays.includes(true);
     },
 
