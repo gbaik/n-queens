@@ -86,7 +86,7 @@
       finalCheck.push(this.attributes[rowIndex].reduce(function (sum, currentValue) {
       // input is an 'nth' element of board
         return sum + currentValue;
-        //if one array is greater than 1 return true else return false
+        //if one array is greater than 1 return true else return false      
       }) > 1 ? true : false);
       
       // go through final array and check if true
@@ -149,7 +149,32 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      // var finalValue = [];
+      // var col = 0;
+      // var row = 0;
+      // for (var i = 0; i < this.attributes.n; i++) {
+      //   finalValue.push(this.attributes[col][row]);
+      //   col++;
+      //   row++;
+      // }
+      
+      // console.log(finalValue);
+      // return finalValue; // fixme
+      var totalDiagonals = (this.attributes.n * 2) - 1;
+      // add (rows + columns) - 1 to find number of iterations
+      let n = this.attributes.n - 1;
+      let row = n;
+      let column = 0;
+      
+      var coordinates = [];
+      for (var i = 0; i < totalDiagonals; i++) {
+        coordinates[i] = [row, column];
+        column = row === 0 ? column + 1 : 0;
+        row = row - 1 < 0 ? 0 : row - 1;
+        // coordinates.push([this.attributes[row], this.attributes[column]]);
+      }
+      
+      console.log(coordinates);
     },
 
 
